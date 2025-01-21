@@ -22,7 +22,9 @@ export const register = async (req, res, next) => {
 };
 
 export const login = async (req, res,next) => {
+  const hasToken = true;
   try {
+    
     const { email, password } = req.body;
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
@@ -55,24 +57,24 @@ export const sendText = (req,res)=>{
   }
 }
 
+export const apiMessage = (req,res)=>{
+  res.send("<h1>User API running...</h1>")
+}
+
 export const getLoginInfo = async(req, res,next) =>{
   try {
-    const token = req.cookies.token;
-    if(!token){
-        res.json({
-        success: false,
-        })
-    }
-    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
     
-    const user = await User.findOne({ _id: decodedData._id }); 
-    res.json({
+    const token = req.cookies.token;
+    if (token) {
+      const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+    
+      const user = await User.findOne({ _id: decodedData._id }); 
+      res.json({
       success:true,
       message: `Welcome back ${user.name}`,
       user: user, // Include user data in the response
-      token:token
-
-    });
+      });
+    }
   } catch (error) {
     next(error);
   }

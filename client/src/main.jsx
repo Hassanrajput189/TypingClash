@@ -30,13 +30,16 @@ const Routes = () => {
 
   return (
     <>
+     <StrictMode>
       <RouterProvider router={router} />
       <Toaster position="top-center" reverseOrder={false} />
+      </StrictMode>
     </>
   );
 };
 
 createRoot(document.getElementById("root")).render(
+  
   <ContextProvider>
     <Routes />
   </ContextProvider>
