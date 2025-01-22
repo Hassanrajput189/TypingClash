@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useContext } from "react";
 import context from "../context/context"
-
+import toast from 'react-hot-toast'
 const TypingInterface = () => {
   const maxTime = 60;
   const [timeLeft, setTimeLeft] = useState(maxTime);
@@ -93,34 +93,37 @@ const TypingInterface = () => {
     };
     
   
-  const resetGame = () => {
-    setCorrectWrong(Array(currentText.length).fill(''));
-    handleInput();
-    setIsTyping(false);
-    setTimeLeft(maxTime);
-    setCharIndex(0);
-    setMistakes(0);
-    setCPM(0);
-    setWPM(0);
-
-    if(isMultiplayer && players.length){
-      setGameStarted(true);
-    }
-
-    // Reset charRef
-    charRef.current.forEach((charSpan) => {
-    
-      if (charSpan) {
-        charSpan.className = ''; // Remove all classes
+    const resetGame = () => {
+      if (isMultiplayer && players.length < 2) {
+        toast.error("There should be a minimum of 2 players in the room.");
+        return;
       }
-      
-    });
-  
-    // Clear input field
-    if (inputRef.current) {
-      inputRef.current.value = '';
-    }
-  };
+    
+      setCorrectWrong(Array(currentText.length).fill(''));
+      handleInput();
+      setIsTyping(false);
+      setTimeLeft(maxTime);
+      setCharIndex(0);
+      setMistakes(0);
+      setCPM(0);
+      setWPM(0);
+    
+      if (isMultiplayer && players.length) {
+        setGameStarted(true);
+      }
+    
+      // Reset charRef
+      charRef.current.forEach((charSpan) => {
+        if (charSpan) {
+          charSpan.className = ''; // Remove all classes
+        }
+      });
+    
+      // Clear input field
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
+    };
 
   return (
     <div className="bg-[#a8dfee] border-4 border-[#268da9] w-[60vw] h-[50vh] rounded-lg text-[#024a61] font-bold overflow-hidden ">

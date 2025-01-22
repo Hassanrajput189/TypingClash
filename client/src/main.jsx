@@ -2,7 +2,7 @@ import { StrictMode, useContext } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import Login from "./components/Login";
+import Login from "./components/Login.jsx";
 import { RouterProvider, Navigate } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
 import Register from "./components/Register.jsx";
@@ -15,19 +15,18 @@ const Routes = () => {
 
   const router = createBrowserRouter([
     {
-      path: "/register",
+      path: "/register", 
       element: <Register />,
     },
     {
-      path: "/login",
+      path: "/login", 
       element: <Login />,
     },
     {
-      path: "/",
+      path: "/", 
       element: isLogedIn ? <App /> : <Navigate to="/login" replace />,
     },
   ]);
-
   return (
     <>
      <StrictMode>

@@ -63,6 +63,7 @@ const Navbar = () => {
                   e.preventDefault();
                   setIsMultiplayer(false);
                   setIsModesOpen(false); // Close the menu after clicking
+                  toast.success("Singleplayer mode selected")
                 }}
               >
                 Singleplayer
@@ -73,6 +74,7 @@ const Navbar = () => {
                   e.preventDefault();
                   setIsMultiplayer(true);
                   setIsModesOpen(false); // Close the menu after clicking
+                  toast.success("Multiplayer mode selected")
                 }}
               >
                 Multiplayer
