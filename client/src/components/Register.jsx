@@ -10,7 +10,7 @@ const Register = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:5000/api/users/register`,
+      const response = await axios.post(`http://192.168.100.78:5000/api/users/register`,
         {
           name,
           email,
@@ -37,9 +37,9 @@ const Register = () => {
   };
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <h1 className="text-4xl font-bold mb-4">Welcome to Typing Clash</h1>
+      <h1 className="text-4xl text-center font-bold mb-4">Welcome <br /> to  <br />Typing Clash</h1>
       <p className="text-xl mb-8">Please Sign up to continue</p>
-      <div className="border-4 border-[#268da9] bg-[#a8dfee] w-[30vw] p-8 flex flex-col items-center rounded-xl">
+      <div className="border-4 border-[#268da9] bg-[#a8dfee] md:w-[30vw] w-[80vw] p-8 flex flex-col items-center rounded-xl ">
         <h2 className="text-3xl font-bold mb-6">Sign up</h2>
         <form onSubmit={handleSignUp} className="flex flex-col gap-4 w-full">
         <div>

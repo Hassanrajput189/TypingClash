@@ -2,7 +2,20 @@ import { useState, useMemo } from "react";
 import io from "socket.io-client";
 import UserContext from "./context";
 const ContextProvidor = ({ children }) => {
-  const socket = useMemo(() => io("http://localhost:5000"), []);
+  
+  
+  const socket = useMemo(() => {
+    return io("http://192.168.100.78:5000", { 
+      transports: ['websocket', 'polling'],
+      withCredentials: true,
+    });
+  }, []); 
+  
+  const maxTime = 60;
+  const [mistakes, setMistakes] = useState(0);
+  const [WPM, setWPM] = useState(0);
+  const [CPM, setCPM] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(maxTime);
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
   const [text3, setText3] = useState("");
@@ -11,29 +24,43 @@ const ContextProvidor = ({ children }) => {
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [isMultiplayer, setIsMultiplayer] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
-  const [players, setPlayers] = useState([]);
-
+  const [isMobile,setIsMobile] = useState(false);
+  const [isPC,setIsPC] = useState(false);
+  const [players, setPlayers] = useState([]);  
   return (
     <UserContext.Provider
       value={{
         socket,
+        maxTime,
         text1,
         text2,
         text3,
+        WPM,
+        CPM,
+        mistakes,
+        timeLeft,
         currentText,
         isLogedIn,
         isMultiplayer,
         gameStarted,
         room,
+        isMobile,
+        isPC,
         players,
         setText1,
         setText2,
         setText3,
+        setWPM,
+        setCPM,
+        setMistakes,
+        setTimeLeft,
         setCurrentText,
         setIsLogedIn,
         setIsMultiplayer,
         setGameStarted,
         setRoom,
+        setIsMobile,
+        setIsPC,
         setPlayers,
       }}
     >

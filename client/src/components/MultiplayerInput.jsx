@@ -1,11 +1,16 @@
 import React, { useEffect, useContext } from "react";
-import ShowPlayers from "./ShowPlayers";
 import context from "../context/context";
 import toast from "react-hot-toast";
 const MultiplayerInterface = () => {
-  const { socket, room, setRoom, players, setPlayers, gameStarted } =
+  const { socket, room, setRoom, setPlayers, gameStarted } =
     useContext(context);
 
+    useEffect(() => {
+      socket.on("connect", () => {
+        setSocketId(socket.id.toString());
+      });
+      
+    }, []);    
   useEffect(() => {
     // Listen for updates to the player list
     socket.on("playerList", (playerList) => {
@@ -34,23 +39,26 @@ const MultiplayerInterface = () => {
 
   const handleJoinRoom = (e) => {
     e.preventDefault();
+    
     socket.emit("joinRoom", room);
     toast.success(`${socket.id} joined room ${room}`);
   };
 
   return (
-    <div className="h-[70vh] w-[18vw] rounded-l-3xl bg-[#a8dfee] border-4 border-[#268da9]">
-      <div className="font-bold pt-4 pl-2">Your ID: {socket.id}</div>
+    
+    <div className=" flex flex-col items-center  rounded-2xl bg-[#a8dfee] border-4 border-[#268da9]  h-[80px] w-[350px]">
+      <div className="font-semibold pt-2 ">Your ID: {socket.id}</div>
       {!gameStarted && (
         <form onSubmit={handleJoinRoom}>
-          <div className="flex gap-4 mb-4">
+          <div className="flex  gap-2 ">
             <div>
               <input
                 className="border-2 border-black rounded-md"
                 type="text"
-                placeholder="  Room name"
+                placeholder=" Room name"
                 value={room}
                 onChange={(e) => setRoom(e.target.value)}
+                
               />
             </div>
             <div className="bg-green-500 rounded-md text-sm border border-black py-1 px-2">
@@ -59,8 +67,8 @@ const MultiplayerInterface = () => {
           </div>
         </form>
       )}
-      {room && <ShowPlayers players={players} />}
     </div>
+
   );
 };
 

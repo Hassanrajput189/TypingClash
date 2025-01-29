@@ -15,7 +15,7 @@ const Navbar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/logout`, {
+      const response = await axios.get(`http://192.168.100.78:5000/api/users/logout`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -59,8 +59,8 @@ const Navbar = () => {
             <ul className="absolute flex-col gap-2 mt-1 list-none bg-[#fc8124] rounded-lg shadow-lg z-10 cursor-pointer border border-black">
               <li
                 className="hover:bg-[#ffad5c] px-4 py-2 pr-10 border-b border-black rounded transition-all duration-300 ease-in-out"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
+                  
                   setIsMultiplayer(false);
                   setIsModesOpen(false); // Close the menu after clicking
                   toast.success("Singleplayer mode selected")
@@ -70,8 +70,8 @@ const Navbar = () => {
               </li>
               <li
                 className="hover:bg-[#ffad5c] px-4 py-2 pr-10 border-b border-black rounded transition-all duration-300 ease-in-out"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
+                   
                   setIsMultiplayer(true);
                   setIsModesOpen(false); // Close the menu after clicking
                   toast.success("Multiplayer mode selected")
@@ -94,8 +94,8 @@ const Navbar = () => {
             <ul className="absolute flex-col gap-2 mt-1 list-none bg-[#fc8124] rounded-lg shadow-lg z-10 cursor-pointer border border-black">
               <li
                 className="hover:bg-[#ffad5c] px-4 py-2 pr-10 border-b border-black rounded transition-all duration-300 ease-in-out"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
+                  
                   setCurrentText(text1);
                   setIsLevelsOpen(false); // Close the menu after clicking
                 }}
@@ -104,8 +104,8 @@ const Navbar = () => {
               </li>
               <li
                 className="hover:bg-[#ffad5c] px-4 py-2 pr-10 border-b border-black rounded transition-all duration-300 ease-in-out"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
+                  
                   setCurrentText(text2);
                   setIsLevelsOpen(false); // Close the menu after clicking
                 }}
@@ -114,8 +114,8 @@ const Navbar = () => {
               </li>
               <li
                 className="hover:bg-[#ffad5c] px-4 py-2 pr-10 border-b border-black rounded transition-all duration-300 ease-in-out"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
+                  
                   setCurrentText(text3);
                   setIsLevelsOpen(false); // Close the menu after clicking
                 }}

@@ -14,12 +14,16 @@ config({
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ["http://localhost:5173","https://typing-clash-front-end.vercel.app" ,
-  "https://typing-clash-front-end-git-main-hassanrajput189s-projects.vercel.app"
+  origin: [
+    "http://localhost:5173",
+    "http://192.168.100.78:5173",
+    "https://typing-clash-front-end.vercel.app",
+    "https://typing-clash-front-end-git-main-hassanrajput189s-projects.vercel.app"
   ],
   methods: ["GET", "POST"],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Cookie']
+  
 }));
 
 app.use(express.json());
@@ -27,5 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/users/',userRoutes);
 app.use(handleError);
 
+app.get("/",(req,res)=>{
+  res.send("<h1>API running...</h1>")
+})
 
 export {app};

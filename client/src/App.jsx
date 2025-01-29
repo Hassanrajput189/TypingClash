@@ -11,20 +11,13 @@ function App() {
   const {socket, setText1, setText2,setText3,setCurrentText} = useContext(context);
   const [socketId, setSocketId] = useState("");
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      setSocketId(socket.id.toString());
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  
   
   useEffect(() => {
     const fetchData = async () => {
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/text`, {
+        const response = await axios.get(`http://192.168.100.78:5000/api/users/text`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -50,7 +43,7 @@ function App() {
   },[]); 
 
   return (
-    <div >
+    <div className="h-screen w-screen">
       <Home/>
     </div>
   );

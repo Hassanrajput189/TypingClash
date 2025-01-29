@@ -8,75 +8,77 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const {setIsLogedIn } = useContext(context);
-
-  const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-          const response = await axios.post(`http://localhost:5000/api/users/login`,
-            {
-              email,
-              password,
+  const { isLogedIn, setIsLogedIn } = useContext(context);
+  useEffect(()=>{
+    const fetchLoginInfo = async()=>{
+      try {
+        const response = await axios.get(`http://192.168.100.78:5000/api/users/loginInfo`,
+          {
+            headers: {
+              "Content-Type": "application/json"
             },
-            {
-              headers: {
-                "Content-Type": "application/json"
-              },
-              withCredentials: true
-            }
-            
-          );
+            withCredentials: true
+          }
+        );
+
+        const success = response.data.success;
+        if(success){
           toast.success(response.data.message);
           setIsLogedIn(true);
           navigate("/");
-        } catch (error) {
-          if (error.response) {
-            toast.error(error.response.data.message || "Unknown error");
-          } else if (error.request) {
-            toast.error("No response from server. Please try again.");
-          } else {
-            toast.error("An error occurred. Please try again.");
-          }
         }
-      };
-
-      useEffect(()=>{
-      const fetchLoginInfo = async()=>{
-        try {
-          const response = await axios.get(`http://localhost:5000/api/users/loginInfo`,
-            {
-              headers: {
-                "Content-Type": "application/json"
-              },
-              withCredentials: true
-            }
-          );
-
-          const success = response.data.success;
-          if(success){
-            toast.success(response.data.message);
-            setIsLogedIn(true);
-            navigate("/");
-          }
-    
-        } catch (error) {
-          if (error.response) {
-            toast.error(error.response.data.message || "Unknown error");
-          } else if (error.request) {
-            toast.error("No response from server. Please try again.");
-          } else {
-            toast.error("An error occurred. Please try again.");
-          }
+  
+      } catch (error) {
+        if (error.response) {
+          toast.error(error.response.data.message || "Unknown error");
+        } else if (error.request) {
+          toast.error("No response from server. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
         }
       }
-      fetchLoginInfo();
-    },[])
+    }
+    fetchLoginInfo();
+  },[])
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`http://192.168.100.78:5000/api/users/login`,
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          withCredentials: true
+        }
+        
+      );
+      toast.success(response.data.message);
+      setIsLogedIn(true);
+      navigate("/");
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message || "Unknown error");
+      } else if (error.request) {
+        toast.error("No response from server. Please try again.");
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    }
+  };
+
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <h1 className="text-4xl font-bold mb-4">Welcome to Typing Clash</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center">
+        Welcome <br /> to <br /> Typing Clash
+      </h1>
       <p className="text-xl mb-8">Please Login to continue</p>
-      <div className="border-4 border-[#268da9] bg-[#a8dfee] w-[30vw] p-8 flex flex-col items-center rounded-xl">
+      <div className="border-4 border-[#268da9] bg-[#a8dfee] w-[80vw] p-8 flex flex-col items-center rounded-xl md:w-[30vw]">
         <h2 className="text-3xl font-bold mb-6">Login</h2>
         <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full">
           <div>
