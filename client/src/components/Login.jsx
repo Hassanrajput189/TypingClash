@@ -8,11 +8,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { isLogedIn, setIsLogedIn } = useContext(context);
+  const {setIsLogedIn } = useContext(context);
   useEffect(()=>{
     const fetchLoginInfo = async()=>{
       try {
-        const response = await axios.get(`http://192.168.100.78:5000/api/users/loginInfo`,
+        const response = await axios.get(`http://localhost:5000/api/users/loginInfo`,
           {
             headers: {
               "Content-Type": "application/json"
@@ -29,13 +29,8 @@ const Login = () => {
         }
   
       } catch (error) {
-        if (error.response) {
-          toast.error(error.response.data.message || "Unknown error");
-        } else if (error.request) {
-          toast.error("No response from server. Please try again.");
-        } else {
-          toast.error("An error occurred. Please try again.");
-        }
+        setIsLogedIn(false);
+        navigate("/login");
       }
     }
     fetchLoginInfo();
@@ -44,7 +39,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://192.168.100.78:5000/api/users/login`,
+      const response = await axios.post(`http://localhost:5000/api/users/login`,
         {
           email,
           password,

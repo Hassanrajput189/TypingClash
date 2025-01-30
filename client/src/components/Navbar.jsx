@@ -15,7 +15,7 @@ const Navbar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`http://192.168.100.78:5000/api/users/logout`, {
+      const response = await axios.get(`http://localhost:5000/api/users/logout`, {
         headers: {
           "Content-Type": "application/json",
         },

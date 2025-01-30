@@ -28,10 +28,10 @@ const Routes = () => {
   ]);
   return (
     <>
-     {/* <StrictMode> */}
+     <StrictMode>
       <RouterProvider router={router} />
       <Toaster position="top-center" reverseOrder={false} />
-      {/* </StrictMode> */}
+      </StrictMode>
     </>
   );
 };

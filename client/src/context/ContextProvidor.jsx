@@ -5,7 +5,7 @@ const ContextProvidor = ({ children }) => {
   
   
   const socket = useMemo(() => {
-    return io("http://192.168.100.78:5000", { 
+    return io("http://localhost:5000", { 
       transports: ['websocket', 'polling'],
       withCredentials: true,
     });

@@ -10,15 +10,20 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "http://192.168.100.78:5173", // Add your private IP here
       "https://typing-clash-front-end.vercel.app",
-      "https://typing-clash-front-end-git-main-hassanrajput189s-projects.vercel.app"
+      "https://typing-clash-front-end-git-main-hassanrajput189s-projects.vercel.app",
     ],
     methods: ["GET", "POST"],
     credentials: true,
     transports: ['websocket', 'polling'],
-    allowedHeaders: ["Content-Type", "Authorization", "Origin", "X-Requested-With", "Cookie"]
-    
+    allowedHeaders: [
+      "Content-Type", 
+      "Authorization", 
+      "Origin", 
+      "X-Requested-With", 
+      "Cookie",
+      "User-Agent" 
+    ],
   }
 });
 connectDB();

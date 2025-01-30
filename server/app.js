@@ -16,13 +16,19 @@ app.use(cookieParser());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "http://192.168.100.78:5173",
     "https://typing-clash-front-end.vercel.app",
     "https://typing-clash-front-end-git-main-hassanrajput189s-projects.vercel.app"
   ],
   methods: ["GET", "POST"],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Cookie']
+  allowedHeaders: [
+    "Content-Type", 
+    "Authorization", 
+    "Origin", 
+    "X-Requested-With", 
+    "Cookie",
+    "User-Agent" 
+  ],
   
 }));
 

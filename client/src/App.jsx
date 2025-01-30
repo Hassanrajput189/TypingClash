@@ -1,6 +1,6 @@
 import "./App.css";
 import Home from "./components/Home"
-import { useState, useEffect,useContext } from "react";
+import { useEffect,useContext } from "react";
 import toast from 'react-hot-toast'
 import context from "./context/context"
 import axios from "axios";
@@ -8,16 +8,13 @@ import axios from "axios";
 
 function App() {
 
-  const {socket, setText1, setText2,setText3,setCurrentText} = useContext(context);
-  const [socketId, setSocketId] = useState("");
+  const { setText1, setText2,setText3,setCurrentText} = useContext(context);
 
-  
-  
   useEffect(() => {
     const fetchData = async () => {
 
       try {
-        const response = await axios.get(`http://192.168.100.78:5000/api/users/text`, {
+        const response = await axios.get(`http://localhost:5000/api/users/text`, {
           headers: {
             "Content-Type": "application/json",
           },
