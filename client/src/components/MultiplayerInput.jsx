@@ -1,13 +1,14 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import context from "../context/context";
 import toast from "react-hot-toast";
 const MultiplayerInterface = () => {
   const { socket, room, setRoom, setPlayers, gameStarted } =
     useContext(context);
+    const [socketId, setSocketId]= useState(socket.id);
 
     useEffect(() => {
       socket.on("connect", () => {
-        setSocketId(socket.id.toString());
+        setSocketId(socket.id);
       });
       
     }, []);    
@@ -41,13 +42,13 @@ const MultiplayerInterface = () => {
 
   const handleJoinRoom = (e) => {
     e.preventDefault();
-    socket.emit("joinRoom", { room, message: `${socket.id} joined room ${room}` });
+    socket.emit("joinRoom", { room, message: `${socketId} joined room ${room}` });
   };
 
   return (
     
     <div className=" flex flex-col items-center  rounded-2xl bg-[#a8dfee] border-4 border-[#268da9]  h-[80px] w-[350px]">
-      <div className="font-semibold pt-2 ">Your ID: {socket.id}</div>
+      <div className="font-semibold pt-2 ">Your ID: {socketId}</div>
       {!gameStarted && (
         <form onSubmit={handleJoinRoom}>
           <div className="flex  gap-2 ">

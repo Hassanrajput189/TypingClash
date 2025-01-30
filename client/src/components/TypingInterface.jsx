@@ -140,7 +140,7 @@ const TypingInterface = () => {
       <div className="p-4">
         <p
           id="textPara"
-          className=" h-80 overflow-hidden select-none md:text-3xl text-xl"
+          className=" h-72 overflow-hidden select-none md:text-2xl sm:text-xl text-lg"
         >
           {currentText.split("").map((char, index) => (
             <span
