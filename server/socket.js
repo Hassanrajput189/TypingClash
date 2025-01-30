@@ -4,7 +4,7 @@ const setupSocket = (io) => {
   io.on('connection', (socket) => {
     console.log('socket is connected', socket.id);
 
-    socket.on('joinRoom', (room) => {
+    socket.on('joinRoom', ({room,message}) => {
       // Leave the previous room if any
       if (socket.room) {
         socket.leave(socket.room);
@@ -22,7 +22,7 @@ const setupSocket = (io) => {
       }
       rooms.get(room).set(socket.id, { id: socket.id });
 
-      console.log(`${socket.id} joined room ${room}`);
+      io.to(room).emit("joinMessage", message);
       updatePlayerList(room);
     });
 

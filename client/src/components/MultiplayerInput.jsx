@@ -20,7 +20,9 @@ const MultiplayerInterface = () => {
         toast.error("The room is full! Please try joining another room.");
       }
     });
-
+    socket.on('joinMessage',(message)=>{
+      toast.success(message)
+    })
     // Listen for player stats updates
     socket.on("playerStats", (stats) => {
       setPlayers((prevPlayers) => {
@@ -39,9 +41,7 @@ const MultiplayerInterface = () => {
 
   const handleJoinRoom = (e) => {
     e.preventDefault();
-    
-    socket.emit("joinRoom", room);
-    toast.success(`${socket.id} joined room ${room}`);
+    socket.emit("joinRoom", { room, message: `${socket.id} joined room ${room}` });
   };
 
   return (
