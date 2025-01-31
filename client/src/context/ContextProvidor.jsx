@@ -24,6 +24,7 @@ const ContextProvidor = ({ children }) => {
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [isMultiplayer, setIsMultiplayer] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const [gameEnded, setGameEnded] = useState(false);
   const [isMobile,setIsMobile] = useState(false);
   const [isPC,setIsPC] = useState(false);
   const [players, setPlayers] = useState([]);  
@@ -43,6 +44,7 @@ const ContextProvidor = ({ children }) => {
         isLogedIn,
         isMultiplayer,
         gameStarted,
+        gameEnded,
         room,
         isMobile,
         isPC,
@@ -58,6 +60,7 @@ const ContextProvidor = ({ children }) => {
         setIsLogedIn,
         setIsMultiplayer,
         setGameStarted,
+        setGameEnded,
         setRoom,
         setIsMobile,
         setIsPC,

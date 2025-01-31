@@ -13,11 +13,14 @@ const TypingInterface = () => {
   const inputRef = useRef(null);
   const charRef = useRef([]);
   const [correctWrong, setCorrectWrong] = useState([]);
-  const { socket, currentText,players, isMultiplayer,setGameStarted } = useContext(context);
+  const { socket, currentText,players, isMultiplayer,setGameStarted,setGameEnded } = useContext(context);
 
   useEffect(() => {
-    resetGame();
-  }, [currentText, isMultiplayer]);
+    if (currentText && isMultiplayer !== undefined) {
+        resetGame();
+    }
+}, [currentText, isMultiplayer]);
+
 
   useEffect(() => {
     let interval;
@@ -30,18 +33,23 @@ const TypingInterface = () => {
           } else {
             clearInterval(interval);
             setIsTyping(false); // Stop typing when time runs out
+            setGameEnded(true);
             return 0;
           }
         });
       }, 1000);
     }
 
-    return () => clearInterval(interval);
+    return () => {
+
+      clearInterval(interval);
+    }
   }, [isTyping]); // Timer logic only depends on isTyping
 
   useEffect(() => {
-    if (timeLeft === 0 || charIndex === currentText.length) {
+    if (timeLeft === 0) {
       setIsTyping(false); // Stop typing if time is up or text is complete
+      setGameEnded(true); 
     }
     let wpm, cpm;
     const correctChars = charIndex - mistakes;
@@ -85,6 +93,7 @@ const TypingInterface = () => {
       // Stop typing when reaching the end of the text
       if (charIndex + 1 === currentText.length) {
         setIsTyping(false);
+        setGameEnded(true);
       }
     }
 
@@ -92,9 +101,10 @@ const TypingInterface = () => {
   };
 
   const focusInput = () => {
-    let button = document.getElementById("button");
-    button.addEventListener("click", inputRef.current.focus());
-  };
+    if (inputRef.current) {
+        inputRef.current.focus();
+    }
+   };
   const resetGame = () => {
     setCorrectWrong(Array(currentText.length).fill(""));
     setIsTyping(false);
@@ -127,6 +137,7 @@ const TypingInterface = () => {
     }
     else {
       setGameStarted(true);
+      setGameEnded(false);
       resetGame();
       focusInput();
       toast.success("Game started!");
@@ -139,9 +150,11 @@ const TypingInterface = () => {
     <div className="bg-[#a8dfee] border-4 border-[#268da9] md:w-[60vw] w-[95vw]  h-[50vh]  rounded-2xl text-[#024a61] font-bold overflow-hidden">
       <div className="p-4">
         <p
+        
           id="textPara"
           className=" h-72 overflow-hidden select-none md:text-2xl sm:text-xl text-lg"
         >
+          
           {currentText.split("").map((char, index) => (
             <span
               key={index}
@@ -154,7 +167,7 @@ const TypingInterface = () => {
             </span>
           ))}
         </p>
-
+          
         <div id="inputField">
           <input
             className="z-[-999] opacity-0 absolute"
@@ -164,7 +177,9 @@ const TypingInterface = () => {
             onChange={handleChange}
           />
         </div>
+
         <div className="flex justify-around items-center pt-4 md:text-lg text-sm">
+        
           <p>
             Time Left: <strong>{timeLeft}</strong>
           </p>
@@ -180,7 +195,7 @@ const TypingInterface = () => {
 
           <button
             id="button"
-            className="w-fit h-fit text-sm bg-[#fc8124] border-4 border-[#e36e07] rounded-full text-black px-2 py-1 font-semibold transition-transform duration-300 transform hover:bg-[#ffad5c] hover:scale-105"
+            className="w-fit h-fit text-sm bg-[#fc8124] border border-black rounded-full text-black px-2 py-1 font-semibold transition-transform duration-300 transform hover:bg-[#ffad5c] hover:scale-105"
             onClick={startGame}
           >
             {isTyping ? "Try Again" : "Start"}
