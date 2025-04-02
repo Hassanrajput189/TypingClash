@@ -15,43 +15,47 @@ const Home = () => {
   }, [isMultiplayer]);
 
   return (
-    <div className="flex flex-col items-center w-full gap-4 min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
       <Navbar />
-      <div className={`flex flex-col items-center w-full gap-4 flex-grow`}>
-        {/* Multiplayer Dashboard */}
-        <div
-          className={`transition-all duration-500 ease-in-out ${
-            showMultiFunc
-              ? "translate-y-0 opacity-100 "
-              : "translate-y-[-100%] opacity-0 z-[-999] "
-          } `}
-        >
-          <MultiplayerDashboard />
-        </div>
+      
+      <main className="container mx-auto px-4 py-8">
+        <div className="flex flex-col items-center gap-8">
+          {/* Multiplayer Dashboard */}
+          <div
+            className={`w-full transition-all duration-500 ease-in-out transform ${
+              showMultiFunc
+                ? "translate-y-0 opacity-100"
+                : "-translate-y-full opacity-0 pointer-events-none"
+            }`}
+          >
+            <div className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+              <MultiplayerDashboard />
+            </div>
+          </div>
 
-        {/* Typing Interface */}
-        <div className="block ">
-          <TypingInterface />
-        </div>
+          {/* Typing Interface */}
+          <div className="w-full">
+            <TypingInterface />
+          </div>
 
-        {/* Show Players (Only in multiplayer mode) */}
-        <div
-          className={`transition-all duration-500 ease-in-out ${
-            showMultiFunc
-              ? "translate-y-0 opacity-100 "
-              : "translate-y-[100%] opacity-0 z-[-999]"
-          } `}
-        >
-          <div className="h-full max-h-[200px] overflow-y-auto w-full">
-            {/* Ensure ShowPlayers content is scrollable */}
-            {room && <ShowPlayers players={players} />}
-            {/* <ShowPlayers/> */}
+          {/* Show Players (Only in multiplayer mode) */}
+          <div
+            className={`w-full transition-all duration-500 ease-in-out transform ${
+              showMultiFunc
+                ? " opacity-100"
+                : " opacity-0 pointer-events-none"
+            }`}
+          >
+            <div className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+              <div className="h-[200px] overflow-y-auto">
+                {room && <ShowPlayers players={players} />}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="relative bottom-0 w-full">
-        <Footer />
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };

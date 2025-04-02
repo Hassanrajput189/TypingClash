@@ -1,19 +1,19 @@
 import React, { useEffect, useContext, useState } from "react";
 import context from "../context/context";
 import toast from "react-hot-toast";
-const MultiplayerInput = () => {
-  const { socket, room, setRoom, setPlayers, gameStarted ,gameEnded} =
-    useContext(context);
-    const [socketId, setSocketId]= useState(socket.id);
 
-    useEffect(() => {
-      socket.on("connect", () => {
-          setSocketId(socket.id);
-      });
-  }, [socket]);
-  
+const MultiplayerInput = () => {
+  const { socket, room, setRoom, setPlayers, gameStarted, gameEnded } =
+    useContext(context);
+  const [socketId, setSocketId] = useState(socket.id);
+
   useEffect(() => {
-    // Listen for updates to the player list
+    socket.on("connect", () => {
+      setSocketId(socket.id);
+    });
+  }, [socket]);
+
+  useEffect(() => {
     socket.on("playerList", (playerList) => {
       if (playerList.length <= 4) {
         setPlayers(playerList);
@@ -21,11 +21,11 @@ const MultiplayerInput = () => {
         toast.error("The room is full! Please try joining another room.");
       }
     });
-    
-    socket.on('message',(message)=>{
+
+    socket.on('message', (message) => {
       toast.success(message)
-    })
-    // Listen for player stats updates
+    });
+
     socket.on("playerStats", (stats) => {
       setPlayers((prevPlayers) => {
         return prevPlayers.map((player) =>
@@ -34,7 +34,6 @@ const MultiplayerInput = () => {
       });
     });
 
-    // Clean up the event listeners when the component unmounts
     return () => {
       socket.off("playerList");
       socket.off("playerStats");
@@ -44,52 +43,63 @@ const MultiplayerInput = () => {
   const handleJoinRoom = (e) => {
     e.preventDefault();
     if (!room.trim()) {
-        toast.error("Room name cannot be empty.");
-        return;
+      toast.error("Room name cannot be empty.");
+      return;
     }
     socket.emit("joinRoom", { room, message: `${socketId} joined room ${room}` });
-};
+  };
 
-  const handleCheckWinner = (e)=>{
+  const handleCheckWinner = (e) => {
     e.preventDefault();
-    socket.emit('checkWinner',room);
+    socket.emit('checkWinner', room);
   }
-  
+
   return (
-    
-    <div className=" flex flex-col items-center justify-center gap-1 rounded-2xl bg-[#a8dfee] border-4 border-[#268da9]  h-[80px] w-[350px] ">
-      <div className="font-semibold pt-2 ">Your ID: {socketId}</div>
-      {gameEnded &&(
-        <button className="w-fit h-fit text-sm bg-[#fc8124] border border-black rounded-full text-black px-2  py-1 font-semibold transition-transform duration-300 transform hover:bg-[#ffad5c] hover:scale-105"
-        onClick={handleCheckWinner}>
-          Check Winner
-        </button>
-      )}
-      {!gameStarted && (
-        <form onSubmit={handleJoinRoom}>
-          <div className="flex  gap-2 ">
-            <div>
-              <input
-                className="border-2 border-black rounded-md"
-                type="text"
-                placeholder=" Room name"
-                value={room}
-                onChange={(e) => setRoom(e.target.value)}
-                
-              />
-            </div>
-            <div className="bg-green-500 rounded-md text-sm border border-black py-1 px-2">
-              <button type="submit">Join Room</button>
-            </div>
+    <div className="w-full max-w-md mx-auto">
+      <div className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+        <div className="space-y-4">
+          {/* Player ID Display */}
+          <div className="flex items-center justify-between bg-gray-700 rounded-lg p-3">
+            <span className="text-sm font-medium text-gray-300">Your ID:</span>
+            <span className="font-mono text-sm text-indigo-400">{socketId}</span>
           </div>
-        </form>
-      )}
-      
-      <div>
-        
+
+          {/* Game Controls */}
+          <div className="space-y-4">
+            {gameEnded && (
+              <button
+                onClick={handleCheckWinner}
+                className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02]"
+              >
+                Check Winner
+              </button>
+            )}
+
+            {!gameStarted && (
+              <form onSubmit={handleJoinRoom} className="space-y-3">
+                <div className="flex gap-3">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      placeholder="Enter room name"
+                      value={room}
+                      onChange={(e) => setRoom(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 outline-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02]"
+                  >
+                    Join Room
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
       </div>
     </div>
-
   );
 };
 

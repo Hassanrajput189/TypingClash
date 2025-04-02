@@ -28,6 +28,7 @@ const ContextProvidor = ({ children }) => {
   const [isMobile,setIsMobile] = useState(false);
   const [isPC,setIsPC] = useState(false);
   const [players, setPlayers] = useState([]);  
+  const [userName, setUserName] = useState("");  
   return (
     <UserContext.Provider
       value={{
@@ -49,6 +50,7 @@ const ContextProvidor = ({ children }) => {
         isMobile,
         isPC,
         players,
+        userName,
         setText1,
         setText2,
         setText3,
@@ -65,6 +67,7 @@ const ContextProvidor = ({ children }) => {
         setIsMobile,
         setIsPC,
         setPlayers,
+        setUserName,
       }}
     >
       {children}
